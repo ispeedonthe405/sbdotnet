@@ -1,26 +1,33 @@
 ﻿using System.Collections.ObjectModel;
+using System.Text.Json;
+
 
 namespace sbdotnet
 {
     public static class Extensions
     {
         ///////////////////////////////////////////////////////////
+        #region Color
+
+        public static string ToJavascriptRGB(this System.Drawing.Color color)
+        {
+            return $"rgb({color.R}, {color.G}, {color.B})";
+        }
+
+        #endregion Color
+        ///////////////////////////////////////////////////////////
+
+
+        ///////////////////////////////////////////////////////////
         #region String
 
-        public static bool IsNull(this string value)
+        public static bool IsNull(this string? value)
         {
+            if (value is null) return true;
             if (String.IsNullOrEmpty(value)) return true;
             if (String.IsNullOrWhiteSpace(value)) return true;
             if (value.Length == 0) return true;
             return false;
-        }
-
-        public static bool IsNotNull(this string value)
-        {
-            if (String.IsNullOrEmpty(value)) return false;
-            if (String.IsNullOrWhiteSpace(value)) return false;
-            if (value.Length == 0) return false;
-            return true;
         }
 
         #endregion String
@@ -61,7 +68,7 @@ namespace sbdotnet
         /// <typeparam name="T"></typeparam>
         /// <param name="collectionDest"></param>
         /// <param name="collectionSrc"></param>
-        public static void AddUniqueRange<T>(this List<T> collectionDest, List<T> collectionSrc)
+        public static void AddUniqueRange<T>(this List<T> collectionDest, IEnumerable<T> collectionSrc)
         {
             foreach (var t in collectionSrc)
             {
@@ -69,6 +76,53 @@ namespace sbdotnet
                 {
                     collectionDest.Add(t);
                 }
+            }
+        }
+
+        /// <summary>
+        /// Converts a List<string> into a CSV string
+        /// </summary>
+        /// <param name="source"></param>
+        /// <returns></returns>
+        public static string ToCsvString(this List<string> source)
+        {
+            string converted = string.Empty;
+            for(int i = 0; i < source.Count; i++)
+            {
+                if(i < source.MaxIndex())
+                {
+                    converted += $"source[i],";
+                }
+                else
+                {
+                    converted += source[i];
+                }
+            }
+            return converted;
+        }
+
+        public static string ToJson<T>(this List<T> collection)
+        {
+            try
+            {
+                return JsonSerializer.Serialize(collection);
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+            }
+            return string.Empty;
+        }
+
+        public static void FromJson<T>(this List<T> collection, string json)
+        {
+            try
+            {
+                collection = JsonSerializer.Deserialize<List<T>?>(json) ?? [];
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
             }
         }
 
@@ -113,22 +167,6 @@ namespace sbdotnet
         /// <typeparam name="T"></typeparam>
         /// <param name="collectionDest"></param>
         /// <param name="collectionSource"></param>
-        public static void AddRange<T>(this ObservableCollection<T> collectionDest, ObservableCollection<T> collectionSource)
-        {
-            foreach (var t in collectionSource)
-            {
-                collectionDest.Add(t);
-            }
-        }
-
-        public static void AddRange<T>(this ObservableCollection<T> collectionDest, List<T> collectionSource)
-        {
-            foreach (var t in collectionSource)
-            {
-                collectionDest.Add(t);
-            }
-        }
-
         public static void AddRange<T>(this ObservableCollection<T> collectionDest, IEnumerable<T> collectionSource)
         {
             foreach (var t in collectionSource)
@@ -143,27 +181,36 @@ namespace sbdotnet
         /// <typeparam name="T"></typeparam>
         /// <param name="collectionDest"></param>
         /// <param name="collectionSource"></param>
-        public static void AddRangeUnique<T>(this ObservableCollection<T> collectionDest, ObservableCollection<T> collectionSource)
-        {
-            foreach (var t in collectionSource)
-            {
-                collectionDest.AddUnique(t);
-            }
-        }
-
-        public static void AddRangeUnique<T>(this ObservableCollection<T> collectionDest, List<T> collectionSource)
-        {
-            foreach (var t in collectionSource)
-            {
-                collectionDest.AddUnique(t);
-            }
-        }
-
         public static void AddRangeUnique<T>(this ObservableCollection<T> collectionDest, IEnumerable<T> collectionSource)
         {
             foreach (var t in collectionSource)
             {
                 collectionDest.AddUnique(t);
+            }
+        }
+
+        public static string ToJson<T>(this ObservableCollection<T> collection)
+        {
+            try
+            {
+                return JsonSerializer.Serialize(collection);
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+            }
+            return string.Empty;
+        }
+
+        public static void FromJson<T>(this ObservableCollection<T> collection, string json)
+        {
+            try
+            {
+                collection = JsonSerializer.Deserialize<ObservableCollection<T>?>(json) ?? [];
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
             }
         }
 
