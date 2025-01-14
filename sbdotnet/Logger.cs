@@ -1,7 +1,12 @@
 ﻿using System.Collections.ObjectModel;
+using System.Diagnostics;
 
 namespace sbdotnet
 {
+    /// <summary>
+    /// This is exposed so that the user can easily create a viewer.
+    /// My advice would be a DataGrid bound to Logger.Events
+    /// </summary>
     public class LogEvent
     {
         public enum EventCategory
@@ -17,13 +22,14 @@ namespace sbdotnet
         public string Message { get; set; } = string.Empty;
     }
 
-    public class Logger
+    public static class Logger
     {
         ///////////////////////////////////////////////////////////
         #region Properties
 
         public static ObservableCollection<LogEvent> Events { get; private set; } = [];
         public static bool UseConsole { get; set; } = false;
+        public static bool UseTrace { get; set; } = false;
 
         #endregion Properties
         ///////////////////////////////////////////////////////////
@@ -41,15 +47,24 @@ namespace sbdotnet
             };
             Events.Add(ev);
 
-            if(UseConsole)
+            if (UseConsole)
             {
                 LogToConsole(ev);
+            }
+            if (UseTrace)
+            {
+                LogToTrace(ev);
             }
         }
 
         private static void LogToConsole(LogEvent logEvent)
         {
-            Console.Write($"Logger:{logEvent.Category}:{Environment.NewLine}{logEvent.Message}{Environment.NewLine}");
+            Console.WriteLine($"Logger:{logEvent.Category}:{logEvent.Message}");
+        }
+
+        private static void LogToTrace(LogEvent logEvent)
+        {
+            Trace.WriteLine($"Logger:{logEvent.Category}:{logEvent.Message}");
         }
 
         #endregion Internal
@@ -87,20 +102,6 @@ namespace sbdotnet
         public static void Notify(string message)
         {
             NewEvent(LogEvent.EventCategory.Notify, message);
-        }
-
-        public static void Debug(string message)
-        {
-#if DEBUG
-            NewEvent(LogEvent.EventCategory.Debug, message);
-#endif
-        }
-
-        public static void Debug(Exception ex)
-        {
-#if DEBUG
-            NewEvent(LogEvent.EventCategory.Debug, ex.Message);
-#endif
         }
 
         #endregion Interface
