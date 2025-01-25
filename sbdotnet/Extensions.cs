@@ -1,4 +1,6 @@
 ﻿using System.Collections.ObjectModel;
+using System.Data;
+using System.Reflection;
 using System.Text.Json;
 
 
@@ -6,6 +8,29 @@ namespace sbdotnet
 {
     public static class Extensions
     {
+        ///////////////////////////////////////////////////////////
+        #region DataTable
+
+        /// <summary>
+        /// Technically this is not an extension method but I can live with that
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
+        public static DataTable CreateDataTableFromType<T>() where T : class
+        {
+            DataTable dt = new DataTable();
+            Type t = typeof(T);
+            foreach (PropertyInfo property in t.GetProperties())
+            {
+                dt.Columns.Add(new DataColumn(property.Name, property.PropertyType));
+            }
+            return dt;
+        }
+
+        #endregion DataTable
+        ///////////////////////////////////////////////////////////
+
+
         ///////////////////////////////////////////////////////////
         #region Color
 
