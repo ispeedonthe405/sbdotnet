@@ -8,6 +8,12 @@ namespace sbdotnet
 {
     public static class Extensions
     {
+        public static double Truncate(this double value, int decimalPlaces = 2)
+        {
+            return Math.Truncate(value * Math.Pow(10, decimalPlaces)) / Math.Pow(10, decimalPlaces);
+        }
+
+
         ///////////////////////////////////////////////////////////
         #region DataTable
 
@@ -25,6 +31,29 @@ namespace sbdotnet
                 dt.Columns.Add(new DataColumn(property.Name, property.PropertyType));
             }
             return dt;
+        }
+
+        /// <summary>
+        /// Technically this is not an extension method but I can live with that
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="table"></param>
+        /// <param name="dataList"></param>
+        public static void AddListToDataTable<T>(DataTable table, List<T> dataList) where T : class
+        {
+            foreach (T item in dataList)
+            {
+                DataRow newRow = table.NewRow();
+                foreach (DataColumn column in table.Columns)
+                {
+                    var property = typeof(T).GetProperty(column.ColumnName);
+                    if (property != null)
+                    {
+                        newRow[column] = property.GetValue(item);
+                    }
+                }
+                table.Rows.Add(newRow);
+            }
         }
 
         #endregion DataTable
