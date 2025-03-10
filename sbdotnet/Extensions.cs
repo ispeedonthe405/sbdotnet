@@ -8,10 +8,19 @@ namespace sbdotnet
 {
     public static class Extensions
     {
+
+
+        /////////////////////////////////////////////////////////
+        #region system.double
+
         public static double Truncate(this double value, int decimalPlaces = 2)
         {
             return Math.Truncate(value * Math.Pow(10, decimalPlaces)) / Math.Pow(10, decimalPlaces);
         }
+
+        #endregion system.double
+        /////////////////////////////////////////////////////////
+
 
 
         ///////////////////////////////////////////////////////////
@@ -88,6 +97,7 @@ namespace sbdotnet
         ///////////////////////////////////////////////////////////
 
 
+
         ///////////////////////////////////////////////////////////
         #region List<T>
 
@@ -145,7 +155,7 @@ namespace sbdotnet
             {
                 if(i < source.MaxIndex())
                 {
-                    converted += $"source[i],";
+                    converted += $"{source[i]},";
                 }
                 else
                 {
@@ -241,6 +251,23 @@ namespace sbdotnet
             {
                 collectionDest.AddUnique(t);
             }
+        }
+
+        public static string ToCsvString(this ObservableCollection<string> source)
+        {
+            string converted = string.Empty;
+            for (int i = 0; i < source.Count; i++)
+            {
+                if (i < source.MaxIndex())
+                {
+                    converted += $"{source[i]},";
+                }
+                else
+                {
+                    converted += source[i];
+                }
+            }
+            return converted;
         }
 
         public static string ToJson<T>(this ObservableCollection<T> collection)
