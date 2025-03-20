@@ -4,14 +4,6 @@ using System.Runtime.CompilerServices;
 
 namespace sbdotnet
 {
-	/// <summary>
-	/// DelimitedString is observable as both a string (Value) and an ObservableCollection<string> (Collection).
-	/// - Operations that add or remove items work directly on Collection, which causes Value to be rebuilt based
-	/// on the contents of Collection.
-	/// - Operations that do not alter the collection, such as changing the delimiter, work directly with Value.
-	/// - If Collection is added to or removed from externally, Value will automatically rebuild based on the new 
-	/// contents of Collection
-	/// </summary>
     public class DelimitedString : INotifyPropertyChanged
     {
 		///////////////////////////////////////////////////////////
@@ -55,6 +47,12 @@ namespace sbdotnet
 		/////////////////////////////////////////////////////////
 		#region Properties
 
+		public string OldDelimiter
+		{
+			get => _OldDelimiter;
+			private set => _OldDelimiter = value;
+		}
+
 		public string Delimiter
 		{
 			get => _Delimiter;
@@ -85,6 +83,12 @@ namespace sbdotnet
 
         /////////////////////////////////////////////////////////
         #region Interface
+
+		public DelimitedString()
+		{
+            PropertyChanged += DelimitedString_PropertyChanged;
+            Collection.CollectionChanged += Collection_CollectionChanged;
+        }
 
         public DelimitedString(string delimiter = ",", IEnumerable<string>? collection = null)
         {
