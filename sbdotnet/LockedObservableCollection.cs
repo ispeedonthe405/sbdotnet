@@ -2,11 +2,11 @@
 
 namespace sbdotnet
 {
-    internal class LockingObservableCollection<T> : ObservableCollection<T>
+    internal class LockedObservableCollection<T> : ObservableCollection<T>
     {
         private readonly Lock _collectionLocker = new();
 
-        public LockingObservableCollection() : base()
+        public LockedObservableCollection() : base()
         {
 
         }
