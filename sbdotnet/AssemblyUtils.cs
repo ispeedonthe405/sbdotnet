@@ -4,6 +4,21 @@ namespace sbdotnet
 {
     public class AssemblyUtils
     {
+        public static Stream? GetResourceStream(string path)
+        {
+            try
+            {
+                return Assembly.GetCallingAssembly().GetManifestResourceStream(path);
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+            }
+
+            return null;
+        }
+
+
         public static string LoadResourceString(string path)
         {
             string result = string.Empty;
