@@ -2,7 +2,7 @@
 
 namespace sbdotnet
 {
-    internal class LockedObservableCollection<T> : ObservableCollection<T>
+    public class LockedObservableCollection<T> : ObservableCollection<T>
     {
         private readonly Lock _collectionLocker = new();
 
