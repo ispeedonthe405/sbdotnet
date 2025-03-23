@@ -15,6 +15,7 @@ namespace sbdotnet
             Warning,
             Error,
             Notify,
+            Log,
             Debug
         }
         public EventCategory Category { get; set; }
@@ -27,7 +28,7 @@ namespace sbdotnet
         ///////////////////////////////////////////////////////////
         #region Properties
 
-        public static ObservableCollection<LogEvent> Events { get; private set; } = [];
+        public static LockedObservableCollection<LogEvent> Events { get; private set; } = [];
         public static bool UseConsole { get; set; } = false;
         public static bool UseTrace { get; set; } = false;
 
@@ -37,6 +38,11 @@ namespace sbdotnet
 
         ///////////////////////////////////////////////////////////
         #region Internal
+
+        private static void NewEvent(LogEvent @event)
+        {
+            Events.Add(@event);
+        }
 
         private static void NewEvent(LogEvent.EventCategory category, string message)
         {
@@ -86,7 +92,16 @@ namespace sbdotnet
 
         public static void Warning(Exception ex)
         {
-            NewEvent(LogEvent.EventCategory.Warning, ex.Message);
+            LogEvent @event = new()
+            {
+                Category = LogEvent.EventCategory.Warning,
+                Message = ex.Message
+            };
+            if (ex.StackTrace is not null)
+            {
+                @event.Message += $"{Environment.NewLine}{ex.StackTrace}";
+            }
+            NewEvent(@event);
         }
 
         public static void Error(string message)
@@ -96,12 +111,26 @@ namespace sbdotnet
 
         public static void Error(Exception ex)
         {
-            NewEvent(LogEvent.EventCategory.Error, ex.Message);
+            LogEvent @event = new()
+            {
+                Category = LogEvent.EventCategory.Error,
+                Message = ex.Message
+            };
+            if (ex.StackTrace is not null)
+            {
+                @event.Message += $"{Environment.NewLine}{ex.StackTrace}";
+            }
+            NewEvent(@event);
         }
 
         public static void Notify(string message)
         {
             NewEvent(LogEvent.EventCategory.Notify, message);
+        }
+
+        public static void Log(string message)
+        {
+            NewEvent(LogEvent.EventCategory.Log, message);
         }
 
         #endregion Interface
