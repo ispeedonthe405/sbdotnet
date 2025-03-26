@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.Data;
 using System.Reflection;
 using System.Text.Json;
@@ -8,6 +9,32 @@ namespace sbdotnet
 {
     public static class Extensions
     {
+        /////////////////////////////////////////////////////////
+        #region DateTime
+
+        public static long ToNixTimestamp_S(this DateTime dt)
+        {
+            DateTime unixEpoch = new(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+            TimeSpan timeSpan = dt.ToUniversalTime() - unixEpoch;
+            long value = (long)timeSpan.TotalSeconds;
+            return value;
+        }
+
+        public static long ToNixTimestamp_MS(this DateTime dt)
+        {
+            DateTime unixEpoch = new(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+            TimeSpan timeSpan = dt.ToUniversalTime() - unixEpoch;
+            long value = (long)timeSpan.TotalMilliseconds;
+            return value;
+        }
+
+
+        #endregion DateTime
+        /////////////////////////////////////////////////////////
+
+
+
+
         /////////////////////////////////////////////////////////
         #region Object
 
