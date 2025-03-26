@@ -8,6 +8,28 @@ namespace sbdotnet
 {
     public static class Extensions
     {
+        /////////////////////////////////////////////////////////
+        #region Object
+
+        public static T? DeepCopy<T>(this T obj)
+        {
+            try
+            {
+                using var stream = new MemoryStream();
+                JsonSerializer.Serialize(stream, obj);
+                stream.Position = 0;
+                return JsonSerializer.Deserialize<T>(stream);
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+            }
+            return default;
+        }
+
+        #endregion Object
+        /////////////////////////////////////////////////////////
+
 
 
         /////////////////////////////////////////////////////////
