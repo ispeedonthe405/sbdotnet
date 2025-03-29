@@ -10,39 +10,39 @@ namespace sbdotnet
     public static class Extensions
     {
         /////////////////////////////////////////////////////////
-        #region rgname
+        #region numbers
 
-        public static int DigitCount(this int n)
+        public static int DigitCount(this Int16 n)
         {
-            if (n >= 0)
-            {
-                if (n < 10) return 1;
-                if (n < 100) return 2;
-                if (n < 1000) return 3;
-                if (n < 10000) return 4;
-                if (n < 100000) return 5;
-                if (n < 1000000) return 6;
-                if (n < 10000000) return 7;
-                if (n < 100000000) return 8;
-                if (n < 1000000000) return 9;
-                return 10;
-            }
-            else
-            {
-                if (n > -10) return 2;
-                if (n > -100) return 3;
-                if (n > -1000) return 4;
-                if (n > -10000) return 5;
-                if (n > -100000) return 6;
-                if (n > -1000000) return 7;
-                if (n > -10000000) return 8;
-                if (n > -100000000) return 9;
-                if (n > -1000000000) return 10;
-                return 11;
-            }
+            return n.ToString().Replace("-", "").Length;
         }
 
-        #endregion rgname
+        public static int DigitCount(this UInt16 n)
+        {
+            return n.ToString().Length;
+        }
+
+        public static int DigitCount(this Int32 n)
+        {
+            return n.ToString().Replace("-", "").Length;
+        }
+
+        public static int DigitCount(this UInt32 n)
+        {
+            return n.ToString().Length;
+        }
+
+        public static int DigitCount(this Int64 n)
+        {
+            return n.ToString().Replace("-", "").Length;
+        }
+
+        public static int DigitCount(this UInt64 n)
+        {
+            return n.ToString().Length;
+        }
+
+        #endregion numbers
         /////////////////////////////////////////////////////////
 
 
