@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using sbdotnet.parallel;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 
 namespace sbdotnet
@@ -21,9 +22,15 @@ namespace sbdotnet
         public EventCategory Category { get; set; }
         public DateTime Timestamp { get; set; } = DateTime.Now;
         public string Message { get; set; } = string.Empty;
+
+        public override string ToString()
+        {
+            return $"Logger:{Category}:{Timestamp.ToString("dd.MM.~yy::hh.mm.ss")}:{Message}";
+        }
     }
 
-    public static class Logger
+
+    public class Logger
     {
         ///////////////////////////////////////////////////////////
         #region Properties
@@ -34,7 +41,7 @@ namespace sbdotnet
 
         #endregion Properties
         ///////////////////////////////////////////////////////////
-
+        
 
         ///////////////////////////////////////////////////////////
         #region Internal
