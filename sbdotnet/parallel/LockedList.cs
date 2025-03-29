@@ -52,6 +52,20 @@
             }
         }
 
+        public bool TryAdd(T t)
+        {
+            bool result = false;
+            lock (_Locker)
+            {
+                if (!Contains(t))
+                {
+                    Add(t);
+                    result = true;
+                }
+            }
+            return result;
+        }
+
         public new void Remove(T t)
         {
             lock (_Locker)
