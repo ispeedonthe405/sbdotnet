@@ -4,8 +4,8 @@ using System.Runtime.CompilerServices;
 
 namespace sbdotnet
 {
-    public class DelimitedString : INotifyPropertyChanged
-    {
+	public class DelimitedString : INotifyPropertyChanged
+	{
 		///////////////////////////////////////////////////////////
 		#region INotifyPropertyChanged
 
@@ -67,47 +67,47 @@ namespace sbdotnet
 		{
 			get => _Value;
 			private set => SetField(ref _Value, value, nameof(Value));
-        }
+		}
 
 		public ObservableCollection<string> Collection
 		{
 			get => _Collection;
 			private set => SetField(ref _Collection, value, nameof(Collection));
 		}
-		
-
-        #endregion Properties
-        /////////////////////////////////////////////////////////
 
 
+		#endregion Properties
+		/////////////////////////////////////////////////////////
 
-        /////////////////////////////////////////////////////////
-        #region Interface
+
+
+		/////////////////////////////////////////////////////////
+		#region Interface
 
 		public DelimitedString()
 		{
-            PropertyChanged += DelimitedString_PropertyChanged;
-            Collection.CollectionChanged += Collection_CollectionChanged;
-        }
+			PropertyChanged += DelimitedString_PropertyChanged;
+			Collection.CollectionChanged += Collection_CollectionChanged;
+		}
 
-        public DelimitedString(string delimiter = ",", IEnumerable<string>? collection = null)
-        {
-            Delimiter = delimiter;
+		public DelimitedString(string delimiter = ",", IEnumerable<string>? collection = null)
+		{
+			Delimiter = delimiter;
 
-            // Note: Init order is deliberate here. CollectionChanged is hooked after this
-            // to prevent a flood of events during AddRange. That's why the explicit call
-            // to RebuildFromCollection is there.
-            if (collection is not null)
+			// Note: Init order is deliberate here. CollectionChanged is hooked after this
+			// to prevent a flood of events during AddRange. That's why the explicit call
+			// to RebuildFromCollection is there.
+			if (collection is not null)
 			{
 				Collection.AddRange(collection);
 			}
 			RebuildFromCollection();
 
-            PropertyChanged += DelimitedString_PropertyChanged;
-            Collection.CollectionChanged += Collection_CollectionChanged;
-        }
+			PropertyChanged += DelimitedString_PropertyChanged;
+			Collection.CollectionChanged += Collection_CollectionChanged;
+		}
 
-        public void Add(string value)
+		public void Add(string value)
 		{
 			Collection.Add(value);
 		}
@@ -127,67 +127,67 @@ namespace sbdotnet
 			return _Value.IsNull();
 		}
 
-        public override string ToString()
-        {
-            return _Value;
-        }
+		public override string ToString()
+		{
+			return _Value;
+		}
 
-        public override bool Equals(object? obj)
-        {
-            return _Value.Equals(obj);
-        }
+		public override bool Equals(object? obj)
+		{
+			return _Value.Equals(obj);
+		}
 
-        public override int GetHashCode()
-        {
-            return _Value.GetHashCode();
-        }
+		public override int GetHashCode()
+		{
+			return _Value.GetHashCode();
+		}
 
-        #endregion Interface
-        /////////////////////////////////////////////////////////
+		#endregion Interface
+		/////////////////////////////////////////////////////////
 
 
 
-        /////////////////////////////////////////////////////////
-        #region Internal
+		/////////////////////////////////////////////////////////
+		#region Internal
 
-        private void DelimitedString_PropertyChanged(object? sender, PropertyChangedEventArgs e)
-        {
+		private void DelimitedString_PropertyChanged(object? sender, PropertyChangedEventArgs e)
+		{
 			if (e.PropertyName is null) return;
 
 			if (e.PropertyName.Equals(nameof(Delimiter)))
 			{
 				ChangeDelimiter();
 			}
-        }
+		}
 
-        private void Collection_CollectionChanged(object? sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
-        {
-            RebuildFromCollection();
-        }
+		private void Collection_CollectionChanged(object? sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+		{
+			RebuildFromCollection();
+		}
 
 		private void RebuildFromCollection()
 		{
-            string newValue = string.Empty;
-            foreach (var item in Collection)
-            {
-                if (item == Collection.Last())
-                {
-                    newValue += item;
-                }
-                else
-                {
-                    newValue += $"{item}{Delimiter}";
-                }
-            }
-            Value = newValue;
-        }
+			string newValue = string.Empty;
+			foreach (var item in Collection)
+			{
+				if (item == Collection.Last())
+				{
+					newValue += item;
+				}
+				else
+				{
+					newValue += $"{item}{Delimiter}";
+				}
+			}
+			Value = newValue;
+		}
 
-        private void ChangeDelimiter()
+		private void ChangeDelimiter()
 		{
-            Value = _Value.Replace(_OldDelimiter, _Delimiter);
-        }
+			Value = _Value.Replace(_OldDelimiter, _Delimiter);
+		}
 
-        #endregion Internal
-        /////////////////////////////////////////////////////////
-    }
+		#endregion Internal
+		/////////////////////////////////////////////////////////
+	}
 }
