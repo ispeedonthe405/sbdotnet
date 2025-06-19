@@ -1,6 +1,7 @@
 ﻿using sbdotnet.parallel;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.Text;
 
 namespace sbdotnet
 {
@@ -138,6 +139,16 @@ namespace sbdotnet
         public static void Log(string message)
         {
             NewEvent(LogEvent.EventCategory.Log, message);
+        }
+
+        public static string DumpToString()
+        {
+            StringBuilder sb = new StringBuilder();
+            foreach (var ev in Events)
+            {
+                sb.AppendLine($"{ev.Timestamp}:{ev.Category}:{ev.Message}");
+            }
+            return sb.ToString();
         }
 
         #endregion Interface
