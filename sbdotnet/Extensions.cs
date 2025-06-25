@@ -179,6 +179,25 @@ namespace sbdotnet
             return false;
         }
 
+        public static bool ContainsDigits(this string value)
+        {
+            var chars = value.ToCharArray();
+            foreach (char c in chars)
+            {
+                if (c.Equals('0')) return true;
+                if (c.Equals('1')) return true;
+                if (c.Equals('2')) return true;
+                if (c.Equals('3')) return true;
+                if (c.Equals('4')) return true;
+                if (c.Equals('5')) return true;
+                if (c.Equals('6')) return true;
+                if (c.Equals('7')) return true;
+                if (c.Equals('8')) return true;
+                if (c.Equals('9')) return true;
+            }
+            return false;
+        }
+
         #endregion String
         ///////////////////////////////////////////////////////////
 
