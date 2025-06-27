@@ -42,6 +42,43 @@ namespace sbdotnet
             return n.ToString().Length;
         }
 
+        public static string ToCurrency(this Double value)
+        {
+            return $"{value:C2,en-SG}";
+        }
+
+        public static string ToCurrency(this UInt32 value)
+        {
+            return $"{value:C2}";
+        }
+
+        public static string ToCurrency(this UInt64 value)
+        {
+            return $"{value:C2}";
+        }
+
+        public static string Trunc2(this Double value)
+        {
+            return $"{value:N2}";
+        }
+
+        public static string Round2(this Double value)
+        {
+            double rounded = Math.Round(value, 2);
+            return $"{rounded:N2}";
+        }
+
+        public static string ToPercent(this Double value)
+        {
+            return $"{value:P2}";
+        }
+
+        public static string ToPercent2(this Double value)
+        {
+            double rounded = Math.Round(value, 2);
+            return $"{rounded:P2}";
+        }
+
         #endregion numbers
         /////////////////////////////////////////////////////////
 
