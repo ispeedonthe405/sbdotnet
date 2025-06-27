@@ -44,7 +44,7 @@ namespace sbdotnet
 
         public static string ToCurrency(this Double value)
         {
-            return $"{value:C2,en-SG}";
+            return $"{value:C2}";
         }
 
         public static string ToCurrency(this UInt32 value)
