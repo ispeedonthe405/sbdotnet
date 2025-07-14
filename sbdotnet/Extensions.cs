@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using System.Data;
 using System.Globalization;
 using System.Reflection;
+using System.Text;
 using System.Text.Json;
 
 
@@ -214,8 +215,36 @@ namespace sbdotnet
         ///////////////////////////////////////////////////////////
 
 
+
+        /////////////////////////////////////////////////////////
+        #region char
+
+        public static bool IsAlphaNumeric(this Char value)
+        {
+            return false;
+        }
+
+        #endregion char
+        /////////////////////////////////////////////////////////
+
         ///////////////////////////////////////////////////////////
         #region String
+
+        public static string TrimToAlphaNumeric(this string value)
+        {
+            StringBuilder sb = new();
+
+            var array = value.ToCharArray();
+            foreach (var ch in array)
+            {
+                if (Char.IsLetterOrDigit(ch))
+                {
+                    sb.Append(ch);
+                }
+            }
+
+            return sb.ToString();
+        }
 
         public static bool IsNull(this string? value)
         {
