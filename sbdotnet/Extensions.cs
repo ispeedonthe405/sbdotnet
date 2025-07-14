@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Data;
+using System.Globalization;
 using System.Reflection;
 using System.Text.Json;
 
@@ -9,6 +10,8 @@ namespace sbdotnet
 {
     public static class Extensions
     {
+        static CultureInfo sgCulture = new CultureInfo("en-SG");
+
         /////////////////////////////////////////////////////////
         #region numbers
 
@@ -44,7 +47,14 @@ namespace sbdotnet
 
         public static string ToCurrency(this Double value)
         {
-            return $"{value:C2}";
+            return string.Create(sgCulture, $"{value:C2}");
+            //return $"{value:C2}";
+        }
+
+        public static string ToCurrencyAC(this Double value)
+        {
+            return string.Create(sgCulture, $"{value:C2}");
+            //return $"{value:C2}";
         }
 
         public static string ToCurrency(this UInt32 value)
