@@ -313,26 +313,21 @@ namespace sbdotnet
             }
         }
 
-        /// <summary>
-        /// Converts a List<string> into a CSV string
-        /// </summary>
-        /// <param name="source"></param>
-        /// <returns></returns>
-        public static string ToCsvString(this List<string> source)
+        public static string ToCsvString<T>(this List<T> source)
         {
-            string converted = string.Empty;
-            for(int i = 0; i < source.Count; i++)
+            string csv = string.Empty;
+            for (int i = 0; i < source.Count; i++)
             {
-                if(i < source.MaxIndex())
+                if (i < source.MaxIndex())
                 {
-                    converted += $"{source[i]},";
+                    csv += $"{source[i]},";
                 }
                 else
                 {
-                    converted += source[i];
+                    csv += source[i];
                 }
             }
-            return converted;
+            return csv;
         }
 
         public static string ToJson<T>(this List<T> collection)
@@ -425,19 +420,19 @@ namespace sbdotnet
 
         public static string ToCsvString(this ObservableCollection<string> source)
         {
-            string converted = string.Empty;
+            string csv = string.Empty;
             for (int i = 0; i < source.Count; i++)
             {
                 if (i < source.MaxIndex())
                 {
-                    converted += $"{source[i]},";
+                    csv += $"{source[i]},";
                 }
                 else
                 {
-                    converted += source[i];
+                    csv += source[i];
                 }
             }
-            return converted;
+            return csv;
         }
 
         public static string ToJson<T>(this ObservableCollection<T> collection)
