@@ -302,7 +302,7 @@ namespace sbdotnet
         /// <typeparam name="T"></typeparam>
         /// <param name="collectionDest"></param>
         /// <param name="collectionSrc"></param>
-        public static void AddUniqueRange<T>(this List<T> collectionDest, IEnumerable<T> collectionSrc)
+        public static void AddRangeUnique<T>(this List<T> collectionDest, IEnumerable<T> collectionSrc)
         {
             foreach (var t in collectionSrc)
             {
