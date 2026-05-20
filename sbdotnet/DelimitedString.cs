@@ -4,6 +4,10 @@ using System.Runtime.CompilerServices;
 
 namespace sbdotnet
 {
+	/// <summary>
+	/// A utility class in which a collection of strings is represented
+	/// as a delimited string.
+	/// </summary>
 	public class DelimitedString : INotifyPropertyChanged
 	{
 		///////////////////////////////////////////////////////////
@@ -90,18 +94,23 @@ namespace sbdotnet
 			Collection.CollectionChanged += Collection_CollectionChanged;
 		}
 
+		/// <summary>
+		/// Build a DelimitedString from an existing string collection
+		/// </summary>
+		/// <param name="delimiter"></param>
+		/// <param name="collection"></param>
 		public DelimitedString(string delimiter = ",", IEnumerable<string>? collection = null)
 		{
 			Delimiter = delimiter;
 
 			// Note: Init order is deliberate here. CollectionChanged is hooked after this
 			// to prevent a flood of events during AddRange. That's why the explicit call
-			// to RebuildFromCollection is there.
+			// to RebuildFromCollection is here.
 			if (collection is not null)
 			{
 				Collection.AddRange(collection);
 			}
-			RebuildFromCollection();
+			RebuildStringFromCollection();
 
 			PropertyChanged += DelimitedString_PropertyChanged;
 			Collection.CollectionChanged += Collection_CollectionChanged;
@@ -162,10 +171,13 @@ namespace sbdotnet
 
 		private void Collection_CollectionChanged(object? sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
 		{
-			RebuildFromCollection();
+			RebuildStringFromCollection();
 		}
 
-		private void RebuildFromCollection()
+		/// <summary>
+		/// Rebuilds the delimited string form from the underlying collection
+		/// </summary>
+		private void RebuildStringFromCollection()
 		{
 			string newValue = string.Empty;
 			foreach (var item in Collection)
