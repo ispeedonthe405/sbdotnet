@@ -313,6 +313,14 @@ namespace sbdotnet
             }
         }
 
+        public static void RemoveRange<T>(this List<T> colllectionDest, IEnumerable<T> collectionSrc)
+        {
+            foreach(var t in collectionSrc)
+            {
+                colllectionDest.Remove(t);
+            }
+        }
+
         public static string ToCsvString<T>(this List<T> source)
         {
             string csv = string.Empty;
@@ -417,6 +425,15 @@ namespace sbdotnet
                 collectionDest.AddUnique(t);
             }
         }
+
+        public static void RemoveRange<T>(this ObservableCollection<T> colllectionDest, IEnumerable<T> collectionSrc)
+        {
+            foreach (var t in collectionSrc)
+            {
+                colllectionDest.Remove(t);
+            }
+        }
+
 
         public static string ToCsvString(this ObservableCollection<string> source)
         {
